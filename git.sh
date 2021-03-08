@@ -4,21 +4,22 @@ mkdir -p $TMP
 echo "______________________________________________________________________"
 echo "| Please enter 'Git user' and 'repository' to find more              |"
 echo "| Here is following format: https://github.com/l3m0nqu1z/Git_Checker |"
-echo "|                                              \__  ___/ \___  ___/  |"
+echo "|                                              \__  ___/ \___  ____/ |"
 echo "|                                                 \/         \/      |"
 echo "|                                              Git user   Reposotory |"
 echo "----------------------------------------------------------------------"
 specify_repo() {
 read -p "Git user [default: l3m0nqu1z]: " USER
-read -p "Its repo [default: Git_Checker]: " REPO
+read -p "Repository [default: Git_Checker]: " REPO
 USER=${USER:-l3m0nqu1z}
 REPO=${REPO:-Git_Checker}
 HTTP_RESPONSE=$(curl -o /dev/null -s -w "%{http_code}\n" https://github.com/$USER/$REPO)
-REPOSITORY_URL="https://github.com/$USER/$REPO"
+REPOSITORY_URI="https://github.com/$USER/$REPO"
+REPOSITORY_NAME=$(curl -s -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/$USER/$REPO | jq -r '.name')
+REPOSITORY_DESCRIPTION=$(curl -s -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/$USER/$REPO | jq -r '.description')
 }
 check_repo() {
-#Vse ravno vhodit pri exit 1 comandy curl
-while [[ $HTTP_RESPONSE -ne 200 ]]; do
+while [[ $HTTP_RESPONSE != 200 ]]; do
 echo "$HTTP_RESPONSE Error. The repository was not found. Please re-enter "
 specify_repo
 done
@@ -47,11 +48,13 @@ loading() {
 }
 menu() {
 printf "\033c"
-echo -e "Repository: $REPOSITORY_URL\n"
-echo "1. Read README.md"
-echo "2. Open Pull Requests(PRs)"
+echo    "# Repository: $REPOSITORY_NAME"
+echo    "# Description: $REPOSITORY_DESCRIPTION"
+echo -e "# Full repository URI: $REPOSITORY_URI\n"
+echo    "1. Read README.md"
+echo    "2. Open Pull Requests(PRs)"
 echo -e "3. Most productive contributors\n"
-echo "_______________________________"
+echo    "________"
 echo -e "0. Exit\n"
 read -p ": " CHOISE
 case $CHOISE in
@@ -66,7 +69,7 @@ case $CHOISE in
    ;;
    0)
    printf "\033c"
-   read -p  "Remove all repository data? [Y/n] " REMOVE
+   read -p  "Remove all downloaded data? [Y/n] " REMOVE
       case $REMOVE in
          Y|y|*)
          rm -rf $TMP
@@ -75,6 +78,9 @@ case $CHOISE in
          exit 0
          ;;
       esac
+   ;;
+   *)
+   menu
    ;;
 esac
 }
@@ -88,11 +94,14 @@ case $CHOISE in
    0)
    menu
    ;;
+   *)
+   repo_readme
+   ;;
 esac
 }
 open_pulls_counting() {
 printf "\033c"
-echo -n "Current open PRs: "
+echo -n "Open PRs || "
 grep -c '"state": "open"' $TMP/api
 echo "____________"
 echo -e "0. Main menu\n"
@@ -101,12 +110,14 @@ case $CHOISE in
    0)
    menu
    ;;
+   *)
+   open_pulls_counting
+   ;;
 esac
 }
 contributors_stats() {
 printf "\033c"
-echo "________________________________________________"
-echo "| Commits ||           Contributor             |"
+echo "| Commits ||           Contributor             "
 echo "------------------------------------------------"
 jq -r '.[] | ["| " + (.total | tostring), "  ||  ", (.author | .login)] | join("\t")' $TMP/contributors | sort -nr -k 2
 echo "____________"
@@ -115,6 +126,9 @@ read -p ": " CHOISE
 case $CHOISE in
    0)
    menu
+   ;;
+   *)
+   contributors_stats
    ;;
 esac
 }
