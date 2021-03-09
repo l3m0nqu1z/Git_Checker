@@ -50,7 +50,7 @@ menu() {
 printf "\033c"
 echo    "# Repository: $REPOSITORY_NAME"
 echo    "# Description: $REPOSITORY_DESCRIPTION"
-echo -e "# Full repository URI: $REPOSITORY_URI\n"
+echo -e "# Repository URI: $REPOSITORY_URI\n"
 echo    "1. Read README.md"
 echo    "2. Open Pull Requests(PRs)"
 echo -e "3. Most productive contributors\n"
