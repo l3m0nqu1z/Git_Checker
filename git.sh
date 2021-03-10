@@ -115,7 +115,10 @@ esac
 
 open_pulls_counting() {
 printf "\033c"
-echo -n "Open PRs || "
+echo -e "| PRs || User \n"
+jq -r '.[] | .user | .login' $TMP/api | sort | uniq -c | sort -r
+echo ""
+echo -n "Total open PRs || "
 grep -c '"state": "open"' $TMP/api
 echo "____________"
 echo -e "0. Main menu\n"
