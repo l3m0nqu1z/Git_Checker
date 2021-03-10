@@ -133,7 +133,7 @@ esac
 contributors_stats() {
 printf "\033c"
 echo "| Commits ||           Contributor             "
-echo "------------------------------------------------"
+echo "-----------------------------------------------"
 jq -r '.[] | ["| " + (.total | tostring), "  ||  ", (.author | .login)] | join("\t")' $TMP/contributors | sort -nr -k 2
 echo "____________"
 echo -e "0. Main menu\n"
