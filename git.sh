@@ -25,7 +25,7 @@ REPOSITORY_DESCRIPTION=$(curl -s -H "Accept: application/vnd.github.v3+json" htt
 check_repo() {
 while [[ $HTTP_RESPONSE != 200 ]]
 do
-	echo "$HTTP_RESPONSE Error. The repository was not found. Please re-enter "
+  echo "$HTTP_RESPONSE Error. The repository was not found. Please re-enter "
 	specify_repo
 done
 }
@@ -48,8 +48,8 @@ spin='-\|/'
 i=0
 while kill -0 $pid 2>/dev/null
 do
-	i=$(( (i+1) %4 ))
-	printf "\r[${spin:$i:1}] Please wait. Loading repo's data... "
+  i=$(( (i+1) %4 ))
+  printf "\r[${spin:$i:1}] Please wait. Loading repo's data... "
   sleep .1
 done
 }
@@ -70,7 +70,7 @@ ________
 MAINMENU
 read -p ": " CHOISE
 case $CHOISE in
-	1)
+  1)
   repo_readme
   ;;
   2)
