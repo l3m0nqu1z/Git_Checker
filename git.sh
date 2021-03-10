@@ -81,12 +81,12 @@ case $CHOISE in
   ;;
   0)
     printf "\033c"
-    read -p  "Remove all downloaded data? [y/N] " REMOVE
+    read -p  "Remove all downloaded data? [Y/n] " REMOVE
     	case $REMOVE in
       	N|n)
         exit 0
         ;;
-	Y|y)
+	Y|y|*)
         rm -rf $TMP
         ;;
     	esac
