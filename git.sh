@@ -32,14 +32,14 @@ done
 
 download_data() {
 curl  \
-	-H "Accept: application/vnd.github.v3+json, state: open" \
-	https://api.github.com/repos/$USER/$REPO/pulls > $TMP/api
+  -H "Accept: application/vnd.github.v3+json, state: open" \
+  https://api.github.com/repos/$USER/$REPO/pulls > $TMP/api
 curl \
-	-H "Accept: application/vnd.github.v3+json" \
-	https://api.github.com/repos/$USER/$REPO/stats/contributors > $TMP/contributors
+  -H "Accept: application/vnd.github.v3+json" \
+  https://api.github.com/repos/$USER/$REPO/stats/contributors > $TMP/contributors
 curl \
-	-H "Accept: application/vnd.github.v3+json" \
-	https://api.github.com/repos/$USER/$REPO/readme > $TMP/readme
+  -H "Accept: application/vnd.github.v3+json" \
+  https://api.github.com/repos/$USER/$REPO/readme > $TMP/readme
 } > /dev/null 2>&1
 
 loading() {
