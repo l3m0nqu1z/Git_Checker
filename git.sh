@@ -26,7 +26,7 @@ check_repo() {
 while [[ $HTTP_RESPONSE != 200 ]]
 do
   echo "$HTTP_RESPONSE Error. The repository was not found. Please re-enter "
-	specify_repo
+  specify_repo
 done
 }
 
@@ -80,7 +80,7 @@ case $CHOISE in
   contributors_stats
   ;;
   0)
-  	printf "\033c"
+    printf "\033c"
     read -p  "Remove all downloaded data? [Y/n] " REMOVE
     	case $REMOVE in
       	Y|y|*)
@@ -104,10 +104,10 @@ echo "____________"
 echo -e "0. Main menu\n"
 read -p ": " CHOISE
 case $CHOISE in
-	0)
+  0)
   menu
   ;;
-	*)
+  *)
   repo_readme
   ;;
 esac
