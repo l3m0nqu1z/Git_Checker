@@ -87,7 +87,7 @@ case $CHOISE in
         exit 0
         ;;
 	Y|y|*)
-        rm -rf $TMP
+        rm -rf ${TMP:?}
         ;;
     	esac
 	;;
